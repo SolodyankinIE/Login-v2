@@ -20,11 +20,10 @@ class LogInViewController: UIViewController {
             passwordTextField.text == user.password
         else {
             showAlert(title: "Не верный логин или пароль",
-                      message: "Пожалуйста проверьте данные")
-            
+                      message: "Пожалуйста проверьте данные",
+                      textField: passwordTextField)
             return
         }
-        clearTextField()
     }
     
     @IBAction func forgotUserNamePressed() {
@@ -34,16 +33,9 @@ class LogInViewController: UIViewController {
     
     @IBAction func forgotPasswordPressed() {
         showAlert(title: "Напоминание",
-                  message: "Ваш пароль: \(user.login)")
-    }
-    
-    func clearTextField() {
-        userNameTextField.text = nil
-        passwordTextField.text = nil
+                  message: "Ваш пароль: \(user.password)")
     }
 }
-
-
 
 extension LogInViewController {
     
@@ -59,6 +51,15 @@ extension LogInViewController {
         }
         alert.addAction(okAction)
         present(alert, animated: true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == userNameTextField {
+            passwordTextField.becomeFirstResponder()
+        } else {
+            logInButtonAction()
+        }
+        return true
     }
 }
 
